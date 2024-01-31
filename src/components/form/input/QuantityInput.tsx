@@ -15,9 +15,6 @@ function QuantityInput(props: QuantityInputProp) {
   } = useFormContext<DonationInput>();
   const [quantity, setQuantity] = React.useState<number>(1);
   useEffect(() => {
-    console.log(value);
-    console.log(quantity);
-
     if (value !== undefined && value != quantity) {
       setQuantity(value);
     } else if (value === undefined) {
