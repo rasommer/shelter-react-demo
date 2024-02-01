@@ -221,10 +221,11 @@ function DonationTable() {
 
   return (
     <Box sx={{ width: "80%", margin: "auto" }}>
+      <h2>Donations List</h2>
       <DonationTypeFilter />
       <Paper sx={{ width: "100%", mb: 2 }}>
         <TableContainer>
-          <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
+          <Table sx={{ minWidth: 750 }} aria-labelledby="Donations">
             <EnhancedTableHead
               numSelected={selected.length}
               order={order}

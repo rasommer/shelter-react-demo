@@ -41,6 +41,7 @@ function TypeInput(props: TypeInputProp) {
           label="Type"
           select
           value={donationType}
+          defaultValue={donationType}
           error={!!errors.type}
           helperText={errors.type && errors.type?.message}
           onChange={handleChange}

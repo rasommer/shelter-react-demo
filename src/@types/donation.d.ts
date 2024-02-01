@@ -18,3 +18,9 @@ export type DonationContextType = {
   removeDonation: (id: number) => void;
   editDonation: (donation: Donation | undefined) => void;
 };
+
+export type DonationData = {
+  donationType: DonationType;
+  numberDonation: number;
+  quantity: number;
+};

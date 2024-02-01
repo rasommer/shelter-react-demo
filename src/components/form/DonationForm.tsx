@@ -57,6 +57,7 @@ const DonationForm = () => {
           alignItems="center"
           margin={5}
         >
+          <h2 style={{ marginLeft: 40 }}>New Donation</h2>
           <NameInput value={donationEdition?.name} />
           <TypeInput value={donationEdition?.type} />
 
