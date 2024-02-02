@@ -1,16 +1,17 @@
-import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import NameInput from "./input/NameInput";
-import TypeInput from "./input/TypeInput";
 import { Button, Container, Stack } from "@mui/material";
-import DateInput from "./input/DateInput";
-import QuantityInput from "./input/QuantityInput";
+import dayjs from "dayjs";
+import React from "react";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
+import * as yup from "yup";
+import { DonationContextType } from "../../@types/donation";
 import DonationInput from "../../@types/donationInput";
 import { DonationType } from "../../@types/donationType";
-import React from "react";
 import { DonationContext } from "../../context/DonationContext";
-import { DonationContextType } from "../../@types/donation";
+import DateInput from "./input/DateInput";
+import NameInput from "./input/NameInput";
+import QuantityInput from "./input/QuantityInput";
+import TypeInput from "./input/TypeInput";
 
 const DonationForm = () => {
   // const minDate = dayjs().add(1, "day").toDate();
@@ -39,7 +40,7 @@ const DonationForm = () => {
   const handleReset = () => {
     editDonation(undefined);
     methods.reset();
-    methods.setValue("type", DonationType.Art_Craft_Supplies);
+    // methods.setValue("type", DonationType.Art_Craft_Supplies);
   };
 
   return (

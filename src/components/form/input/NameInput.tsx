@@ -12,23 +12,25 @@ function NameInput(props: NameInputProp) {
     control,
     formState: { errors },
   } = useFormContext<DonationInput>();
-  const { value } = props;
-  const [name, setName] = React.useState<string>("");
 
   return (
     <Controller
       name="name"
       control={control}
+      defaultValue="test"
       render={({ field }) => (
         <TextField
           {...field}
           label="Name"
-          type="text"
-          value={value === undefined ? name : value}
-          helperText={errors.name && errors.name?.message}
-          InputLabelProps={value === undefined ? {} : { shrink: true }}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setName(event.target.value);
+          error={!!errors.name}
+          helperText={errors.name?.message}
+          value={field.value}
+          onChange={(
+            event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+          ) => {
+            console.log(errors);
+
+            field.onChange(event.target.value);
           }}
         />
       )}
