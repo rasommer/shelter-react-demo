@@ -1,12 +1,13 @@
 import Donation, { DonationData } from "../@types/donation";
 import DonationInput from "../@types/donationInput";
 import { DonationType } from "../@types/donationType";
-import { donationData } from "../resources/data/DonationData";
 
-export default function createDonation(donationInput: DonationInput): Donation {
-  const newId = donationData.length;
+export default function createDonation(
+  donationInput: DonationInput,
+  oldId: number | undefined
+): Donation {
   return {
-    id: newId,
+    id: oldId ? oldId : Math.random(),
     name: donationInput.name,
     type: donationInput.type,
     quantity: donationInput.quantity,

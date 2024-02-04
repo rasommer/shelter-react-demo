@@ -5,45 +5,47 @@ import { DonationContext } from "../../context/DonationContext";
 import { DonationContextType } from "../../@types/donation";
 
 function DonationTypeFilter() {
-  const { changeDonationTypeFilter, donationTypeFilter } = React.useContext(
+  const { changeDonationTypeFilter } = React.useContext(
     DonationContext
   ) as DonationContextType;
 
-  const [donationType, setDonationType] = React.useState<DonationType | null>(
-    donationTypeFilter
-  );
+  const [donationType, setDonationType] = React.useState<
+    DonationType | undefined
+  >(undefined);
 
   const handleChooseFilter = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    setDonationType(donationType);
     changeDonationTypeFilter(donationType);
   };
 
   const handleClearFilter = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    setDonationType(null);
-    changeDonationTypeFilter(null);
+    setDonationType(undefined);
+    changeDonationTypeFilter(undefined);
   };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value !== null) {
+      const donationTypeValue = event.target.value;
+      const found = Object.entries(DonationType).find(
+        (entry) => entry[0] === donationTypeValue
+      )?.[0];
+      if (found !== undefined) {
+        setDonationType(found as DonationType);
+      }
+    }
+  };
+
   return (
     <Stack direction="row">
       <TextField
         select
-        defaultValue={donationType === null ? "" : donationType}
+        defaultValue={donationType === undefined ? "" : donationType}
         sx={{ margin: "5px", width: "200px" }}
-        value={donationType === null ? "" : donationType}
-        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-          if (event.target.value !== null) {
-            const donationTypeValue = event.target.value;
-            const found = Object.entries(DonationType).find(
-              (entry) => entry[0] === donationTypeValue
-            )?.[0];
-            if (found !== undefined) {
-              setDonationType(found as DonationType);
-            }
-          }
-        }}
+        value={donationType === undefined ? "" : donationType}
+        onChange={handleChange}
       >
         {Object.keys(DonationType).map((dt) => (
           <MenuItem key={dt} value={dt}>

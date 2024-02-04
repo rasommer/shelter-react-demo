@@ -1,9 +1,11 @@
 import React, { createContext } from "react";
-import { donationData } from "../resources/data/DonationData";
 import Donation, { DonationContextType } from "../@types/donation";
 import { DonationType } from "../@types/donationType";
+import { donationData } from "../resources/data/DonationData";
 
-export const DonationContext = createContext<DonationContextType | null>(null);
+export const DonationContext = createContext<DonationContextType | undefined>(
+  undefined
+);
 
 export const DonationProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -12,18 +14,18 @@ export const DonationProvider: React.FC<{ children: React.ReactNode }> = ({
   const [donationEdition, setDonationEdition] = React.useState<
     Donation | undefined
   >(undefined);
-  const [donationTypeFilter, setDonationTypeFilter] =
-    React.useState<DonationType | null>(null);
+  const [donationTypeFilter, setDonationTypeFilter] = React.useState<
+    DonationType | undefined
+  >(undefined);
 
   const saveDonation = (donation: Donation) => {
-    const newDonation: Donation = {
-      id: Math.random(),
-      name: donation.name,
-      type: donation.type,
-      quantity: donation.quantity,
-      date: donation.date,
-    };
-    setDonations([...donations, newDonation]);
+    const index = donations.findIndex((d) => d.id === donation.id);
+    if (index === -1) {
+      setDonations([...donations, donation]);
+    } else {
+      donations[index] = donation;
+      setDonations([...donations]);
+    }
   };
 
   const editDonation = (donation: Donation | undefined) => {
@@ -45,9 +47,9 @@ export const DonationProvider: React.FC<{ children: React.ReactNode }> = ({
     setDonations([...filteredDonations]);
   };
 
-  const changeDonationTypeFilter = (donationType: DonationType | null) => {
+  const changeDonationTypeFilter = (donationType: DonationType | undefined) => {
     setDonationTypeFilter(donationType);
-    if (donationType === null) {
+    if (donationType === undefined) {
       setDonations([...donationData]);
       return;
     }
@@ -57,9 +59,9 @@ export const DonationProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const filterDonations = (
     donationsToFilter: Donation[],
-    donationType: DonationType | null
+    donationType: DonationType | undefined
   ): Donation[] => {
-    if (donationType !== null) {
+    if (donationType !== undefined) {
       const filtered = donationsToFilter.filter((dd) => {
         const value = Object.entries(DonationType).find(
           (e) => e[0] === donationType

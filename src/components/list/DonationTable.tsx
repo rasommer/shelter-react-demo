@@ -81,12 +81,10 @@ const headCells: readonly HeadCell[] = [
 ];
 
 interface EnhancedTableProps {
-  numSelected: number;
   onRequestSort: (
     event: React.MouseEvent<unknown>,
     property: keyof Donation
   ) => void;
-  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
   orderBy: string;
   rowCount: number;
@@ -131,7 +129,6 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 function DonationTable() {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Donation>("id");
-  const [selected, setSelected] = React.useState<readonly number[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const {
@@ -151,15 +148,6 @@ function DonationTable() {
     setOrderBy(property);
   };
 
-  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      const newSelected = donations.map((n) => n.id);
-      setSelected(newSelected);
-      return;
-    }
-    setSelected([]);
-  };
-
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
@@ -175,14 +163,20 @@ function DonationTable() {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - donations.length) : 0;
 
-  const visibleRows = React.useMemo(
-    () =>
-      stableSort<Donation>(donations, getComparator(order, orderBy)).slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage
-      ),
-    [order, orderBy, page, rowsPerPage, donations]
-  );
+  const visibleRows = React.useMemo(() => {
+    const filteredDonations: Donation[] = donations.filter((d) => {
+      if (donationTypeFilter === undefined) {
+        return true;
+      } else if (d.type === donationTypeFilter) {
+        return true;
+      }
+      return false;
+    });
+    return stableSort<Donation>(
+      filteredDonations,
+      getComparator(order, orderBy)
+    ).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+  }, [order, orderBy, page, rowsPerPage, donations, donationTypeFilter]);
 
   const handleDelete = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -227,10 +221,8 @@ function DonationTable() {
         <TableContainer>
           <Table sx={{ minWidth: 750 }} aria-labelledby="Donations">
             <EnhancedTableHead
-              numSelected={selected.length}
               order={order}
               orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={donations.length}
             />

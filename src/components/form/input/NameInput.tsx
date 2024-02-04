@@ -1,13 +1,9 @@
 import { TextField } from "@mui/material";
+import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import DonationInput from "../../../@types/donationInput";
-import React from "react";
 
-export type NameInputProp = {
-  value?: string | undefined;
-};
-
-function NameInput(props: NameInputProp) {
+function NameInput() {
   const {
     control,
     formState: { errors },
@@ -28,8 +24,6 @@ function NameInput(props: NameInputProp) {
           onChange={(
             event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
           ) => {
-            console.log(errors);
-
             field.onChange(event.target.value);
           }}
         />

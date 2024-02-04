@@ -11,8 +11,8 @@ export default interface Donation {
 export type DonationContextType = {
   donations: Donation[];
   donationEdition: Donation | undefined;
-  donationTypeFilter: DonationType | null;
-  changeDonationTypeFilter: (donationType: DonationType | null) => void;
+  donationTypeFilter: DonationType | undefined;
+  changeDonationTypeFilter: (donationType: DonationType | undefined) => void;
   saveDonation: (donation: Donation) => void;
   updateDonation: (donation: Donation) => void;
   removeDonation: (id: number) => void;

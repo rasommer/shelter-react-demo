@@ -1,46 +1,64 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Container, Stack } from "@mui/material";
 import dayjs from "dayjs";
-import React from "react";
+import React, { useEffect } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { DonationContextType } from "../../@types/donation";
 import DonationInput from "../../@types/donationInput";
 import { DonationType } from "../../@types/donationType";
 import { DonationContext } from "../../context/DonationContext";
+import createDonation from "../../utils/utils";
 import DateInput from "./input/DateInput";
 import NameInput from "./input/NameInput";
 import QuantityInput from "./input/QuantityInput";
 import TypeInput from "./input/TypeInput";
 
+const schema = yup.object().shape({
+  name: yup.string().trim().min(3).required(),
+  type: yup.mixed<DonationType>().oneOf(Object.values(DonationType)).required(),
+  quantity: yup.number().required().positive(),
+  date: yup
+    .date()
+    .required()
+    .min(dayjs().add(1, "day").toDate())
+    .max(dayjs().add(3, "year")),
+});
+
 const DonationForm = () => {
-  // const minDate = dayjs().add(1, "day").toDate();
-  // const maxDate = dayjs().add(3, "year").toDate();
-
-  const schema = yup.object().shape({
-    name: yup.string().trim().min(3).required(),
-    type: yup
-      .mixed<DonationType>()
-      .oneOf(Object.values(DonationType))
-      .required(),
-    quantity: yup.number().required().positive(),
-    date: yup.date().required(),
-  });
-
   const methods = useForm<DonationInput>({
     resolver: yupResolver(schema),
+    mode: "onBlur",
+    defaultValues: {
+      name: "",
+      date: dayjs().add(1, "day").toDate(),
+      quantity: 1,
+      type: DonationType.Art_Craft_Supplies,
+    },
   });
-  const { donationEdition, editDonation } = React.useContext(
+
+  const { donationEdition, editDonation, saveDonation } = React.useContext(
     DonationContext
   ) as DonationContextType;
 
-  const onSubmit: SubmitHandler<DonationInput> = (data: DonationInput) =>
-    console.log(data);
+  useEffect(() => {
+    if (donationEdition) {
+      methods.setValue("name", donationEdition.name);
+      methods.setValue("type", donationEdition.type);
+      methods.setValue("date", donationEdition.date);
+      methods.setValue("quantity", donationEdition.quantity);
+    }
+  }, [donationEdition, methods]);
+
+  const onSubmit: SubmitHandler<DonationInput> = (data: DonationInput) => {
+    const donation = createDonation(data, donationEdition?.id);
+    saveDonation(donation);
+    methods.reset();
+  };
 
   const handleReset = () => {
     editDonation(undefined);
     methods.reset();
-    // methods.setValue("type", DonationType.Art_Craft_Supplies);
   };
 
   return (
@@ -58,12 +76,12 @@ const DonationForm = () => {
           alignItems="center"
           margin={5}
         >
-          <h2 style={{ marginLeft: 40 }}>New Donation</h2>
-          <NameInput value={donationEdition?.name} />
-          <TypeInput value={donationEdition?.type} />
+          <h2 style={{}}>New Donation</h2>
+          <NameInput />
+          <TypeInput />
 
-          <DateInput value={donationEdition?.date} />
-          <QuantityInput value={donationEdition?.quantity} />
+          <DateInput />
+          <QuantityInput />
           <Stack direction="row">
             <Button variant="contained" type="submit" sx={{ margin: "5px" }}>
               {donationEdition === undefined ? "Submit" : "Update"}

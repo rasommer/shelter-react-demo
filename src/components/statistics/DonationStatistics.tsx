@@ -9,9 +9,8 @@ import {
   TableRow,
 } from "@mui/material";
 import React from "react";
-import { DonationContext } from "../../context/DonationContext";
 import { DonationContextType, DonationData } from "../../@types/donation";
-import { DonationType } from "../../@types/donationType";
+import { DonationContext } from "../../context/DonationContext";
 import { createStatistics } from "../../utils/utils";
 
 function DonationStatistics() {
@@ -19,7 +18,10 @@ function DonationStatistics() {
     DonationContext
   ) as DonationContextType;
 
-  const statistics: DonationData[] = createStatistics(donations);
+  const statistics: DonationData[] = React.useMemo(
+    () => createStatistics([...donations]),
+    [donations]
+  );
 
   return (
     <Box sx={{ width: "80%", margin: "auto" }}>

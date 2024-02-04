@@ -1,32 +1,13 @@
-import React, { useEffect } from "react";
-import { Controller, useFormContext } from "react-hook-form";
 import { TextField } from "@mui/material";
+import React from "react";
+import { Controller, useFormContext } from "react-hook-form";
 import DonationInput from "../../../@types/donationInput";
 
-export type QuantityInputProp = {
-  value?: number | undefined;
-};
-
-function QuantityInput(props: QuantityInputProp) {
-  const { value } = props;
+function QuantityInput() {
   const {
     control,
     formState: { errors },
   } = useFormContext<DonationInput>();
-  const [quantity, setQuantity] = React.useState<number>(1);
-  useEffect(() => {
-    if (value !== undefined && value != quantity) {
-      setQuantity(value);
-    } else if (value === undefined) {
-      setQuantity(1);
-    }
-  }, [value]);
-
-  const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setQuantity(Number(event.target.value));
-  };
 
   return (
     <Controller
@@ -36,11 +17,15 @@ function QuantityInput(props: QuantityInputProp) {
         <TextField
           {...field}
           label="Quantity"
-          value={quantity}
+          value={field.value}
           inputProps={{ type: "number", min: 1 }}
           error={!!errors.quantity}
           helperText={errors.quantity?.message}
-          onChange={handleChange}
+          onChange={(
+            event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+          ) => {
+            field.onChange(event.target.value);
+          }}
         />
       )}
     />
