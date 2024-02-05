@@ -8,7 +8,7 @@ import { DonationContextType } from "../../@types/donation";
 import DonationInput from "../../@types/donationInput";
 import { DonationType } from "../../@types/donationType";
 import { DonationContext } from "../../context/DonationContext";
-import createDonation from "../../utils/utils";
+import createDonationFromInput from "../../utils/utils";
 import DateInput from "./input/DateInput";
 import NameInput from "./input/NameInput";
 import QuantityInput from "./input/QuantityInput";
@@ -51,7 +51,7 @@ const DonationForm = () => {
   }, [donationEdition, methods]);
 
   const onSubmit: SubmitHandler<DonationInput> = (data: DonationInput) => {
-    const donation = createDonation(data, donationEdition?.id);
+    const donation = createDonationFromInput(data, donationEdition?.id);
     saveDonation(donation);
     methods.reset();
   };

@@ -1,11 +1,11 @@
-import Donation, { DonationData } from "../@types/donation";
+import Donation, { DonationData, DonationRequest } from "../@types/donation";
 import DonationInput from "../@types/donationInput";
 import { DonationType } from "../@types/donationType";
 
-export default function createDonation(
+const createDonationFromInput = (
   donationInput: DonationInput,
   oldId: number | undefined
-): Donation {
+): Donation => {
   return {
     id: oldId ? oldId : Math.random(),
     name: donationInput.name,
@@ -13,9 +13,9 @@ export default function createDonation(
     quantity: donationInput.quantity,
     date: donationInput.date,
   };
-}
+};
 
-export function createStatistics(donations: Donation[]): DonationData[] {
+export const createStatistics = (donations: Donation[]): DonationData[] => {
   const donationDataset: DonationData[] = [];
 
   const donationTypeKeys = Object.values(DonationType);
@@ -34,4 +34,10 @@ export function createStatistics(donations: Donation[]): DonationData[] {
   });
 
   return donationDataset;
-}
+};
+
+export const createDonationFromRequest = (data: DonationRequest): Donation => {
+  return { ...data, date: new Date(data.date) };
+};
+
+export default createDonationFromInput;

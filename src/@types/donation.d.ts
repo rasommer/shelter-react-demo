@@ -24,3 +24,11 @@ export type DonationData = {
   numberDonation: number;
   quantity: number;
 };
+
+export type DonationRequest = {
+  id: number;
+  name: string;
+  type: DonationType;
+  quantity: number;
+  date: string;
+};

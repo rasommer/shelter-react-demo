@@ -13,15 +13,11 @@ function DonationTypeFilter() {
     DonationType | undefined
   >(undefined);
 
-  const handleChooseFilter = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleChooseFilter = () => {
     changeDonationTypeFilter(donationType);
   };
 
-  const handleClearFilter = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleClearFilter = () => {
     setDonationType(undefined);
     changeDonationTypeFilter(undefined);
   };

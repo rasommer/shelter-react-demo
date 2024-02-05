@@ -1,7 +1,10 @@
-import React, { createContext } from "react";
-import Donation, { DonationContextType } from "../@types/donation";
+import React, { createContext, useEffect } from "react";
+import Donation, {
+  DonationContextType,
+  DonationRequest,
+} from "../@types/donation";
 import { DonationType } from "../@types/donationType";
-import { donationData } from "../resources/data/DonationData";
+import { createDonationFromRequest } from "../utils/utils";
 
 export const DonationContext = createContext<DonationContextType | undefined>(
   undefined
@@ -10,7 +13,30 @@ export const DonationContext = createContext<DonationContextType | undefined>(
 export const DonationProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [donations, setDonations] = React.useState([...donationData]);
+  const [donationData, setDonationData] = React.useState<Donation[]>([]);
+  const fetchJson = async () => {
+    const response = await fetch("./resources/data/DonationData.json");
+
+    if (!response.ok) {
+      const message = `An error has occured: ${response.status}`;
+      throw new Error(message);
+    }
+    const data: DonationRequest[] = await response.json();
+    const donations = data.map<Donation>((d) => createDonationFromRequest(d));
+
+    setDonationData([...donations]);
+  };
+  useEffect(() => {
+    fetchJson();
+  }, []);
+
+  const [donations, setDonations] = React.useState<Donation[]>([
+    ...donationData,
+  ]);
+  useEffect(() => {
+    setDonations([...donationData]);
+  }, [donationData]);
+
   const [donationEdition, setDonationEdition] = React.useState<
     Donation | undefined
   >(undefined);
@@ -19,10 +45,10 @@ export const DonationProvider: React.FC<{ children: React.ReactNode }> = ({
   >(undefined);
 
   const saveDonation = (donation: Donation) => {
-    const index = donations.findIndex((d) => d.id === donation.id);
+    const index = donations?.findIndex((d) => d.id === donation.id);
     if (index === -1) {
-      setDonations([...donations, donation]);
-    } else {
+      donations && setDonations([...donations, donation]);
+    } else if (donations && index !== undefined) {
       donations[index] = donation;
       setDonations([...donations]);
     }
@@ -33,8 +59,8 @@ export const DonationProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const updateDonation = (donation: Donation) => {
-    const filteredDonations = donations.filter((d) => d.id !== donation.id);
-    setDonations([...filteredDonations, donation]);
+    const filteredDonations = donations?.filter((d) => d.id !== donation.id);
+    filteredDonations && setDonations([...filteredDonations, donation]);
   };
 
   const removeDonation = (id: number) => {
