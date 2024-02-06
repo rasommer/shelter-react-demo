@@ -75,12 +75,6 @@ export const DonationProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const changeDonationTypeFilter = (donationType: DonationType | undefined) => {
     setDonationTypeFilter(donationType);
-    if (donationType === undefined) {
-      setDonations([...donationData]);
-      return;
-    }
-    const filtered = filterDonations(donationData, donationType);
-    setDonations(filtered);
   };
 
   const filterDonations = (

@@ -16,6 +16,7 @@ import { visuallyHidden } from "@mui/utils";
 import Donation, { DonationContextType } from "../../@types/donation";
 import { DonationContext } from "../../context/DonationContext";
 import DonationTypeFilter from "./DonationTypeFilter";
+import { DonationType } from "../../@types/donationType";
 
 type Order = "asc" | "desc";
 
@@ -167,10 +168,11 @@ function DonationTable() {
     const filteredDonations: Donation[] = donations.filter((d) => {
       if (donationTypeFilter === undefined) {
         return true;
-      } else if (d.type === donationTypeFilter) {
-        return true;
       }
-      return false;
+      return (
+        donationTypeFilter ===
+        Object.entries(DonationType).find((dt) => dt[1] === d.type)?.[0]
+      );
     });
     return stableSort<Donation>(
       filteredDonations,
@@ -211,6 +213,15 @@ function DonationTable() {
         console.error(`Donation didn't found: ${id}`);
       }
     }
+  };
+
+  const filteredSummary = (): number | "-" => {
+    if (donationTypeFilter && visibleRows.length) {
+      return visibleRows
+        .map((d) => d.quantity)
+        .reduce((total, quantity) => total + quantity);
+    }
+    return "-";
   };
 
   return (
@@ -272,11 +283,7 @@ function DonationTable() {
                   align="right"
                   colSpan={2}
                 >
-                  {donationTypeFilter && donations?.length > 0
-                    ? donations
-                        .map((d) => d.quantity)
-                        .reduce((total, quantity) => total + quantity)
-                    : "-"}
+                  {filteredSummary()}
                 </TableCell>
                 <TableCell colSpan={3}> </TableCell>
               </TableRow>
