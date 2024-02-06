@@ -23,7 +23,6 @@ export const DonationProvider: React.FC<{ children: React.ReactNode }> = ({
     }
     const data: DonationRequest[] = await response.json();
     const donations = data.map<Donation>((d) => createDonationFromRequest(d));
-
     setDonationData([...donations]);
   };
   useEffect(() => {
@@ -67,6 +66,7 @@ export const DonationProvider: React.FC<{ children: React.ReactNode }> = ({
     const foundIndex = donationData.findIndex((dd) => dd.id === id);
     if (foundIndex > -1) {
       donationData.splice(foundIndex, 1);
+      setDonationData([...donationData]);
     }
 
     const filteredDonations = filterDonations(donationData, donationTypeFilter);
