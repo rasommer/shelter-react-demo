@@ -4,6 +4,10 @@ import { Controller, useFormContext } from "react-hook-form";
 import DonationInput from "../../../@types/donationInput";
 import { DonationType } from "../../../@types/donationType";
 
+/**
+ * Type input component for the donation type
+ * @returns the component
+ */
 function TypeInput() {
   const {
     control,

@@ -2,6 +2,12 @@ import Donation, { DonationData, DonationRequest } from "../@types/donation";
 import DonationInput from "../@types/donationInput";
 import { DonationType } from "../@types/donationType";
 
+/**
+ * Create a donation from the input
+ * @param donationInput the donation input
+ * @param oldId the old id
+ * @returns the donation
+ */
 const createDonationFromInput = (
   donationInput: DonationInput,
   oldId: number | undefined
@@ -15,6 +21,11 @@ const createDonationFromInput = (
   };
 };
 
+/**
+ * Create the statistics from the donations
+ * @param donations the donations
+ * @returns the statistics
+ */
 export const createStatistics = (donations: Donation[]): DonationData[] => {
   const donationDataset: DonationData[] = [];
 
@@ -36,6 +47,11 @@ export const createStatistics = (donations: Donation[]): DonationData[] => {
   return donationDataset;
 };
 
+/**
+ * Create a donation from the request
+ * @param data the donation request
+ * @returns the donation
+ */
 export const createDonationFromRequest = (data: DonationRequest): Donation => {
   return { ...data, date: new Date(data.date) };
 };

@@ -1,3 +1,6 @@
+/**
+ * Enum for the different types of donations that can be made
+ */
 export enum DonationType {
   Art_Craft_Supplies = "Art and Craft Supplies",
   Canned_Goods = "Canned Goods",

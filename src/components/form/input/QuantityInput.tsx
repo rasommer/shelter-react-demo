@@ -3,6 +3,10 @@ import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import DonationInput from "../../../@types/donationInput";
 
+/**
+ * Quantity input component for the donation quantity
+ * @returns the component
+ */
 function QuantityInput() {
   const {
     control,

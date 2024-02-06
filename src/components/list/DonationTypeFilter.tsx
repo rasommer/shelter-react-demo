@@ -4,6 +4,9 @@ import { DonationType } from "../../@types/donationType";
 import { DonationContext } from "../../context/DonationContext";
 import { DonationContextType } from "../../@types/donation";
 
+/**
+ * Donation type filter component
+ */
 function DonationTypeFilter() {
   const { changeDonationTypeFilter } = React.useContext(
     DonationContext
@@ -13,15 +16,28 @@ function DonationTypeFilter() {
     DonationType | undefined
   >(undefined);
 
+  /**
+   * Handle the choose filter event
+   * @returns void
+   */
   const handleChooseFilter = () => {
     changeDonationTypeFilter(donationType);
   };
 
+  /**
+   * Handle the clear filter event
+   * @returns void
+   */
   const handleClearFilter = () => {
     setDonationType(undefined);
     changeDonationTypeFilter(undefined);
   };
 
+  /**
+   * Handle the change event
+   * @param event the event to handle
+   * @returns void
+   */
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.value !== null) {
       const donationTypeValue = event.target.value;

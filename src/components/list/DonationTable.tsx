@@ -20,6 +20,13 @@ import { DonationType } from "../../@types/donationType";
 
 type Order = "asc" | "desc";
 
+/**
+ *
+ * @param a first element to compare
+ * @param b second element to compare
+ * @param orderBy order by
+ * @returns value to sort the elements
+ */
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -30,6 +37,12 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   return 0;
 }
 
+/**
+ *
+ * @param order order
+ * @param orderBy order by
+ * @returns a comparator function
+ */
 function getComparator<Key extends keyof any>(
   order: Order,
   orderBy: Key
@@ -42,6 +55,12 @@ function getComparator<Key extends keyof any>(
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
+/**
+ *
+ * @param array array to sort
+ * @param comparator comparator function
+ * @returns a stable sorted array
+ */
 function stableSort<T>(
   array: readonly T[],
   comparator: (a: T, b: T) => number
@@ -57,11 +76,17 @@ function stableSort<T>(
   return stabilizedThis.map((el) => el[0]);
 }
 
+/**
+ * Head cell interface
+ */
 interface HeadCell {
   id: keyof Donation;
   label: string;
 }
 
+/**
+ * Head cells array
+ */
 const headCells: readonly HeadCell[] = [
   {
     id: "name",
@@ -81,6 +106,9 @@ const headCells: readonly HeadCell[] = [
   },
 ];
 
+/**
+ * Enhanced table props
+ */
 interface EnhancedTableProps {
   onRequestSort: (
     event: React.MouseEvent<unknown>,
@@ -91,6 +119,11 @@ interface EnhancedTableProps {
   rowCount: number;
 }
 
+/**
+ * Enhanced table head component
+ * @param props enhanced table props
+ * @returns enhanced table head component
+ */
 function EnhancedTableHead(props: EnhancedTableProps) {
   const { order, orderBy, onRequestSort } = props;
   const createSortHandler =
@@ -127,6 +160,10 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   );
 }
 
+/**
+ * Donation table component
+ * @returns donation table component
+ */
 function DonationTable() {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Donation>("id");
@@ -140,6 +177,12 @@ function DonationTable() {
     donationEdition,
   } = React.useContext(DonationContext) as DonationContextType;
 
+  /**
+   * Handle request sort
+   * @param event event
+   * @param property property
+   * @returns void
+   */
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
     property: keyof Donation
@@ -149,10 +192,21 @@ function DonationTable() {
     setOrderBy(property);
   };
 
+  /**
+   * Handle change page
+   * @param event event
+   * @param newPage new page
+   * @returns void
+   */
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
 
+  /**
+   * Handle change rows per page
+   * @param event event
+   * @returns void
+   */
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -164,6 +218,10 @@ function DonationTable() {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - donations.length) : 0;
 
+  /**
+   * Visible rows from the donations
+   * @returns visible rows
+   */
   const visibleRows = React.useMemo(() => {
     const filteredDonations: Donation[] = donations.filter((d) => {
       if (donationTypeFilter === undefined) {
@@ -180,6 +238,11 @@ function DonationTable() {
     ).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
   }, [order, orderBy, page, rowsPerPage, donations, donationTypeFilter]);
 
+  /**
+   * Handle donation delete
+   * @param event event
+   * @returns void
+   */
   const handleDelete = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -199,6 +262,11 @@ function DonationTable() {
     }
   };
 
+  /**
+   * Handle edit
+   * @param event event
+   * @returns void
+   */
   const handleEdit = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -215,6 +283,10 @@ function DonationTable() {
     }
   };
 
+  /**
+   * Filtered summary
+   * @returns filtered summary
+   */
   const filteredSummary = (): number | "-" => {
     if (donationTypeFilter && visibleRows.length) {
       return visibleRows

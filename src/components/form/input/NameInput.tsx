@@ -3,6 +3,10 @@ import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import DonationInput from "../../../@types/donationInput";
 
+/**
+ * Name input component for the donation name
+ * @returns the component
+ */
 function NameInput() {
   const {
     control,

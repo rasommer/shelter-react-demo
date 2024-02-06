@@ -6,14 +6,22 @@ import Donation, {
 import { DonationType } from "../@types/donationType";
 import { createDonationFromRequest } from "../utils/utils";
 
+/**
+ * Context for the donation data and operations
+ */
 export const DonationContext = createContext<DonationContextType | undefined>(
   undefined
 );
 
+/**
+ * Provider for the donation context
+ */
 export const DonationProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [donationData, setDonationData] = React.useState<Donation[]>([]);
+
+  // Fetch the donation data from the json file
   const fetchJson = async () => {
     const response = await fetch("./resources/data/DonationData.json");
 
@@ -43,6 +51,11 @@ export const DonationProvider: React.FC<{ children: React.ReactNode }> = ({
     DonationType | undefined
   >(undefined);
 
+  /**
+   * Save a donation
+   * @param donation the donation to save
+   * @returns void
+   */
   const saveDonation = (donation: Donation) => {
     const index = donations?.findIndex((d) => d.id === donation.id);
     if (index === -1) {
@@ -53,15 +66,30 @@ export const DonationProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
+  /**
+   * Edit a donation
+   * @param donation the donation to edit
+   * @returns void
+   */
   const editDonation = (donation: Donation | undefined) => {
     setDonationEdition(donation);
   };
 
+  /**
+   * Update a donation
+   * @param donation the donation to update
+   * @returns void
+   */
   const updateDonation = (donation: Donation) => {
     const filteredDonations = donations?.filter((d) => d.id !== donation.id);
     filteredDonations && setDonations([...filteredDonations, donation]);
   };
 
+  /**
+   * Remove a donation
+   * @param id the id of the donation to remove
+   * @returns void
+   */
   const removeDonation = (id: number) => {
     const foundIndex = donationData.findIndex((dd) => dd.id === id);
     if (foundIndex > -1) {
@@ -73,10 +101,21 @@ export const DonationProvider: React.FC<{ children: React.ReactNode }> = ({
     setDonations([...filteredDonations]);
   };
 
+  /**
+   * Change the donation type filter
+   * @param donationType the donation type to filter
+   * @returns void
+   */
   const changeDonationTypeFilter = (donationType: DonationType | undefined) => {
     setDonationTypeFilter(donationType);
   };
 
+  /**
+   * Filter the donations
+   * @param donationsToFilter the donations to filter
+   * @param donationType the donation type to filter
+   * @returns the filtered donations
+   */
   const filterDonations = (
     donationsToFilter: Donation[],
     donationType: DonationType | undefined

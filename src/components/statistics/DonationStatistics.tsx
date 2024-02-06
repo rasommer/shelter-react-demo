@@ -13,11 +13,19 @@ import { DonationContextType, DonationData } from "../../@types/donation";
 import { DonationContext } from "../../context/DonationContext";
 import { createStatistics } from "../../utils/utils";
 
+/**
+ * Donation statistics component
+ */
 function DonationStatistics() {
   const { donations } = React.useContext(
     DonationContext
   ) as DonationContextType;
 
+  /**
+   * Create the statistics from the donations
+   * @returns the statistics
+   * @param donations the donations
+   */
   const statistics: DonationData[] = React.useMemo(
     () => createStatistics([...donations]),
     [donations]

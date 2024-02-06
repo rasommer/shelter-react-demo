@@ -4,6 +4,10 @@ import dayjs from "dayjs";
 import { Controller, useFormContext } from "react-hook-form";
 import DonationInput from "../../../@types/donationInput";
 
+/**
+ * Date input component for the donation date
+ * @returns the component
+ */
 function DateInput() {
   const { control } = useFormContext<DonationInput>();
 
