@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, Container, Stack } from "@mui/material";
+import { Box, Button, Stack } from "@mui/material";
 import dayjs from "dayjs";
 import React, { useEffect } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
@@ -90,7 +90,7 @@ const DonationForm = () => {
   };
 
   return (
-    <Container maxWidth="sm">
+    <Box>
       <FormProvider {...methods}>
         <Stack
           spacing={2}
@@ -104,12 +104,14 @@ const DonationForm = () => {
           alignItems="center"
           margin={5}
         >
-          <h2 style={{}}>New Donation</h2>
-          <NameInput />
-          <TypeInput />
-
-          <DateInput />
-          <QuantityInput />
+          <Stack direction="row">
+            <NameInput />
+            <TypeInput />
+          </Stack>
+          <Stack direction="row">
+            <DateInput />
+            <QuantityInput />
+          </Stack>
           <Stack direction="row">
             <Button variant="contained" type="submit" sx={{ margin: "5px" }}>
               {donationEdition === undefined ? "Submit" : "Update"}
@@ -125,7 +127,7 @@ const DonationForm = () => {
           </Stack>
         </Stack>
       </FormProvider>
-    </Container>
+    </Box>
   );
 };
 

@@ -1,19 +1,19 @@
-import React from "react";
 import "./App.css";
-import DonationForm from "./components/form/DonationForm";
-import DonationTable from "./components/list/DonationTable";
+import TabPanel from "./components/tab/TabPanel";
 import { DonationProvider } from "./context/DonationContext";
-import DonationStatistics from "./components/statistics/DonationStatistics";
+import "./App.css";
+import { Box } from "@mui/material";
 
 function App() {
   return (
-    <DonationProvider>
-      <div className="App">
-        <DonationForm />
-        <DonationTable />
-        <DonationStatistics />
+    <Box sx={{ backgroundColor: "#d2d5d9", height: "100%" }}>
+      <div id="title">
+        <div>Donation Management</div>
       </div>
-    </DonationProvider>
+      <DonationProvider>
+        <TabPanel />
+      </DonationProvider>
+    </Box>
   );
 }
 

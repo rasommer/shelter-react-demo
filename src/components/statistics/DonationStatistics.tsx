@@ -32,13 +32,12 @@ function DonationStatistics() {
   );
 
   return (
-    <Box sx={{ width: "80%", margin: "auto" }}>
-      <h2>Donations Statistics</h2>
-      <Paper sx={{ width: "100%", mb: 2 }}>
+    <Box>
+      <Paper sx={{ margin: 2 }}>
         <TableContainer>
-          <Table sx={{ minWidth: 750 }} aria-labelledby="Donations">
+          <Table aria-labelledby="Donations">
             <TableHead>
-              <TableRow>
+              <TableRow sx={{ backgroundColor: "#a6c1ed" }}>
                 <TableCell sx={{ fontWeight: "bold" }} align="left">
                   Donation Type
                 </TableCell>

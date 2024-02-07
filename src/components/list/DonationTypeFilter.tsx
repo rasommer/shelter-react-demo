@@ -51,11 +51,11 @@ function DonationTypeFilter() {
   };
 
   return (
-    <Stack direction="row">
+    <Stack sx={{ alignItems: "center", justifyContent: "center" }}>
       <TextField
         select
         defaultValue={donationType === undefined ? "" : donationType}
-        sx={{ margin: "5px", width: "200px" }}
+        sx={{ margin: "5px", width: "40%" }}
         value={donationType === undefined ? "" : donationType}
         onChange={handleChange}
       >
@@ -65,22 +65,24 @@ function DonationTypeFilter() {
           </MenuItem>
         ))}
       </TextField>
-      <Button
-        variant="contained"
-        color="primary"
-        style={{ margin: "16px" }}
-        onClick={handleChooseFilter}
-      >
-        Filter
-      </Button>
-      <Button
-        variant="contained"
-        color="secondary"
-        style={{ margin: "16px" }}
-        onClick={handleClearFilter}
-      >
-        Clear
-      </Button>
+      <Stack direction="row">
+        <Button
+          variant="contained"
+          color="primary"
+          style={{ margin: "16px" }}
+          onClick={handleChooseFilter}
+        >
+          Filter
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          style={{ margin: "16px" }}
+          onClick={handleClearFilter}
+        >
+          Clear
+        </Button>
+      </Stack>
     </Stack>
   );
 }

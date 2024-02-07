@@ -1,3 +1,18 @@
-.App {
-  margin: 10px;
+html,
+body,
+#root {
+  height: 100%;
+}
+
+#title {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  background-color: #ffffff;
+}
+
+#title div {
+  margin: auto;
+  width: 60%;
+  font-weight: 700;
+  padding-bottom: 5px;
 }

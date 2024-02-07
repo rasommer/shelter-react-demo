@@ -133,7 +133,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
   return (
     <TableHead>
-      <TableRow>
+      <TableRow sx={{ backgroundColor: "#a6c1ed" }}>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -144,6 +144,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
+              sx={{ fontWeight: "bold" }}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
@@ -154,7 +155,9 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             </TableSortLabel>
           </TableCell>
         ))}
-        <TableCell align="center">Options</TableCell>
+        <TableCell sx={{ fontWeight: "bold", textAlign: "center" }}>
+          Options
+        </TableCell>
       </TableRow>
     </TableHead>
   );
@@ -168,7 +171,7 @@ function DonationTable() {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Donation>("id");
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const {
     donations,
     donationTypeFilter,
@@ -297,12 +300,11 @@ function DonationTable() {
   };
 
   return (
-    <Box sx={{ width: "80%", margin: "auto" }}>
-      <h2>Donations List</h2>
+    <Box>
       <DonationTypeFilter />
-      <Paper sx={{ width: "100%", mb: 2 }}>
-        <TableContainer>
-          <Table sx={{ minWidth: 750 }} aria-labelledby="Donations">
+      <Paper sx={{ width: "100%", overflow: "hidden" }}>
+        <TableContainer sx={{ maxHeight: 580 }}>
+          <Table aria-labelledby="Donations">
             <EnhancedTableHead
               order={order}
               orderBy={orderBy}
@@ -312,12 +314,7 @@ function DonationTable() {
             <TableBody>
               {visibleRows.map((row) => {
                 return (
-                  <TableRow
-                    hover
-                    tabIndex={-1}
-                    key={row.id}
-                    sx={{ cursor: "pointer" }}
-                  >
+                  <TableRow hover tabIndex={-1} key={row.id}>
                     <TableCell align="right">{row.name}</TableCell>
                     <TableCell align="right">{row.type}</TableCell>
                     <TableCell align="right">{row.quantity}</TableCell>
@@ -372,7 +369,7 @@ function DonationTable() {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[10, 25, 50]}
           component="div"
           count={donations.length}
           rowsPerPage={rowsPerPage}
