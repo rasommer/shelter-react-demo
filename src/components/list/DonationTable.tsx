@@ -302,8 +302,8 @@ function DonationTable() {
   return (
     <Box>
       <DonationTypeFilter />
-      <Paper sx={{ width: "100%", overflow: "hidden" }}>
-        <TableContainer sx={{ maxHeight: 580 }}>
+      <Paper sx={{ width: "98%", overflow: "hidden", margin: "auto" }}>
+        <TableContainer sx={{ maxHeight: 550 }}>
           <Table aria-labelledby="Donations">
             <EnhancedTableHead
               order={order}
