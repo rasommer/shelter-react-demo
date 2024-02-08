@@ -4,4 +4,6 @@ This is an example of application using React. It was presented for challenge pr
 
 ## Running
 
-`bash npm start`
+```bash
+npm install && npm start
+```
