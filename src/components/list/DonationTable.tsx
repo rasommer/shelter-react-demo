@@ -18,6 +18,10 @@ import { DonationContext } from "../../context/DonationContext";
 import DonationTypeFilter from "./DonationTypeFilter";
 import { DonationType } from "../../@types/donationType";
 
+interface DonationTableProps {
+  onEdition: () => void;
+}
+
 type Order = "asc" | "desc";
 
 /**
@@ -167,7 +171,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
  * Donation table component
  * @returns donation table component
  */
-function DonationTable() {
+const DonationTable = (props: DonationTableProps) => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Donation>("id");
   const [page, setPage] = React.useState(0);
@@ -179,6 +183,7 @@ function DonationTable() {
     editDonation,
     donationEdition,
   } = React.useContext(DonationContext) as DonationContextType;
+  const { onEdition } = props;
 
   /**
    * Handle request sort
@@ -279,6 +284,7 @@ function DonationTable() {
     if (idAttribute && idAttribute.value) {
       const id = Number(idAttribute.value);
       if (!Number.isNaN(id) && donations.findIndex((d) => d.id === id) !== -1) {
+        onEdition();
         editDonation(donations.find((d) => d.id === id));
       } else if (donations.findIndex((d) => d.id === id) !== -1) {
         console.error(`Donation didn't found: ${id}`);
@@ -380,6 +386,6 @@ function DonationTable() {
       </Paper>
     </Box>
   );
-}
+};
 
 export default DonationTable;

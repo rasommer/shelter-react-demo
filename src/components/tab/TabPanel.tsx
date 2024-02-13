@@ -6,6 +6,7 @@ import DonationStatistics from "../statistics/DonationStatistics";
 
 function TabPanel() {
   const [visibleTab, setVisibleTab] = React.useState<number>(0);
+  const handleOnEdition = () => setVisibleTab(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setVisibleTab(newValue);
@@ -37,7 +38,7 @@ function TabPanel() {
         <DonationForm />
       </div>
       <div style={{ display: visibleTab === 1 ? "block" : "none" }}>
-        <DonationTable />
+        <DonationTable onEdition={handleOnEdition} />
       </div>
       <div style={{ display: visibleTab === 2 ? "block" : "none" }}>
         <DonationStatistics />
