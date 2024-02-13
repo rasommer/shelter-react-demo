@@ -7,3 +7,11 @@ This is an example of application using React. It was presented for challenge pr
 ```bash
 npm install && npm start
 ```
+
+## Screenshots
+
+![form](./screenshots/form.png)
+
+![list](./screenshots/data_table.png)
+
+![statistics](./screenshots/statistics.png)
