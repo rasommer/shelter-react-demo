@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/rasommer/shelter-react-demo/static/css/main.cb4700cf.css",
+    "main.js": "/rasommer/shelter-react-demo/static/js/main.0cfec735.js",
+    "index.html": "/rasommer/shelter-react-demo/index.html",
+    "main.cb4700cf.css.map": "/rasommer/shelter-react-demo/static/css/main.cb4700cf.css.map",
+    "main.0cfec735.js.map": "/rasommer/shelter-react-demo/static/js/main.0cfec735.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.cb4700cf.css",
+    "static/js/main.0cfec735.js"
+  ]
+}
